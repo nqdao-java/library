@@ -1,54 +1,60 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" th:replace="layout/base :: layout(~{::body})">
   <body>
-    <div class="row">
+  <div class="container mt-4">
+    <div class="row g-4">
       <div class="col-md-3">
-        <div class="card text-white bg-primary mb-3">
-          <div class="card-body">
-            <h5 class="card-title">Số sách</h5>
-            <p class="card-text" th:text="${bookCount}">0</p>
+        <div class="card h-100 border-primary shadow-sm">
+          <div class="card-body text-center">
+            <h6 class="text-uppercase fw-bold text-primary">Số sách</h6>
+            <h2 class="display-6 fw-bold" th:text="${bookCount}">0</h2>
+            <hr>
+            <a class="btn btn-primary w-100" th:href="@{/admin/books}">
+              <i class="bi bi-book"></i> Quản lý Sách
+            </a>
           </div>
         </div>
       </div>
-      <div class="col-md-3">
-        <div class="card text-white bg-success mb-3">
-          <div class="card-body">
-            <h5 class="card-title">Số bản sao</h5>
-            <p class="card-text" th:text="${itemCount}">0</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card text-white bg-warning mb-3">
-          <div class="card-body">
-            <h5 class="card-title">Mượn đang hoạt động</h5>
-            <p class="card-text" th:text="${activeLoans}">0</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card text-white bg-danger mb-3">
-          <div class="card-body">
-            <h5 class="card-title">Phạt chưa thanh toán</h5>
-            <p class="card-text" th:text="${openFines}">0</p>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="mt-4">
-      <a class="btn btn-outline-primary" th:href="@{/admin/books}">Quản lý Sách</a>
-      <a class="btn btn-outline-secondary" th:href="@{/admin/book-items}">Quản lý Bản sao</a>
-      <a class="btn btn-outline-warning" th:href="@{/admin/loans}">Cho mượn</a>
-      <a class="btn btn-outline-danger" th:href="@{/admin/fines}">Phạt</a>
+      <div class="col-md-3">
+        <div class="card h-100 border-success shadow-sm">
+          <div class="card-body text-center">
+            <h6 class="text-uppercase fw-bold text-success">Số bản sao</h6>
+            <h2 class="display-6 fw-bold" th:text="${itemCount}">0</h2>
+            <hr>
+            <a class="btn btn-success w-100" th:href="@{/admin/book-items}">
+              <i class="bi bi-layers"></i> Quản lý Bản sao
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card h-100 border-warning shadow-sm">
+          <div class="card-body text-center">
+            <h6 class="text-uppercase fw-bold text-warning">Mượn hoạt động</h6>
+            <h2 class="display-6 fw-bold" th:text="${activeLoans}">0</h2>
+            <hr>
+            <a class="btn btn-warning text-white w-100" th:href="@{/admin/loans}">
+              <i class="bi bi-cart-check"></i> Cho mượn
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="card h-100 border-danger shadow-sm">
+          <div class="card-body text-center">
+            <h6 class="text-uppercase fw-bold text-danger">Phạt chưa thu</h6>
+            <h2 class="display-6 fw-bold" th:text="${openFines}">0</h2>
+            <hr>
+            <a class="btn btn-danger w-100" th:href="@{/admin/fines}">
+              <i class="bi bi-exclamation-triangle"></i> Quản lý Phạt
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
-  <div class="mt-4">
-    <h3 class="mb-4">Bảng điều khiển quản trị</h3>
-    <p class="text-muted">Tóm tắt quản trị (demo).</p>
-    <ul>
-      <li><a th:href="@{/admin/books}">Quản lý Sách</a></li>
-      <li><a href="/h2-console" target="_blank">H2 Console</a></li>
-    </ul>
   </div>
 
   </body>

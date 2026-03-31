@@ -22,6 +22,7 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
@@ -29,7 +30,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        log.debug("SecurityFilterChain" + http.toString());
+        log.debug("SecurityFilterChain" + http);
         http     .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/css/**","/js/**","/","/books/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")

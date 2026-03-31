@@ -1,25 +1,62 @@
 <div th:replace="~{layout/base :: layout(content=~{::body})}">
   <div th:fragment="body">
-    <div class="row justify-content-center">
-      <div class="col-sm-10 col-md-7 col-lg-6">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="mb-3">M\u01b0\u1ee3n s\u00e1ch</h4>
-            <form method="post" th:action="@{/admin/loans/borrow}">
-              <div class="mb-3">
-                <label class="form-label">Ch\u1ecdn b\u1ea3n sao</label>
-                <select name="bookId" class="form-select">
-                  <option th:each="it : ${items}" th:value="${it.id}" th:text="${it.book.title} + ' - ' + ${it.barcode} + ' (' + ${it.status} + ')'"></option>
-                </select>
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Tên người mượn</label>
-                <input name="borrowerName" class="form-control" required />
-              </div>
-              <div class="d-grid">
-                <button class="btn btn-primary">Mượn</button>
-              </div>
-            </form>
+    <div class="container mt-5">
+      <div class="row justify-content-center">
+        <div class="col-sm-10 col-md-8 col-lg-6">
+          <div class="card shadow border-0">
+            <div class="card-header bg-primary text-white py-3">
+              <h5 class="mb-0">
+                <i class="bi bi-journal-arrow-up me-2"></i>
+                <span th:text="#{loans.borrow.title}">Mượn sách</span>
+              </h5>
+            </div>
+
+            <div class="card-body p-4">
+              <form method="post" th:action="@{/admin/loans/borrow}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                <div class="mb-3">
+                  <label class="form-label fw-bold text-muted" th:text="#{loans.selectBook}">Chọn bản sao</label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light"><i class="bi bi-barcode"></i></span>
+                    <select name="bookId" class="form-select shadow-none" required>
+                      <option value="" th:text="'-- ' + #{loans.selectBook} + ' --'"></option>
+                      <option th:each="it : ${items}"
+                              th:value="${it.id}"
+                              th:disabled="${it.status.name() != 'AVAILABLE'}"
+                              th:text="${it.book.title} + ' [' + ${it.barcode} + '] - ' + ${it.status}">
+                      </option>
+                    </select>
+                  </div>
+                  <small class="text-muted mt-1 d-block italic">* Chỉ có thể chọn các bản sao có trạng thái AVAILABLE.</small>
+                </div>
+
+                <div class="mb-4">
+                  <label class="form-label fw-bold text-muted" th:text="#{loans.borrowerName}">Tên người mượn</label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light"><i class="bi bi-person-badge"></i></span>
+                    <input name="borrowerName"
+                           class="form-control shadow-none"
+                           th:placeholder="#{users.fullName}"
+                           required />
+                  </div>
+                </div>
+
+                <div class="row g-2 pt-2 border-top">
+                  <div class="col-8">
+                    <button class="btn btn-primary w-100 py-2 fw-bold">
+                      <i class="bi bi-check-lg me-1"></i>
+                      <span th:text="#{loans.borrow.button}">Cho mượn</span>
+                    </button>
+                  </div>
+                  <div class="col-4">
+                    <a th:href="@{/admin/loans}" class="btn btn-outline-secondary w-100 py-2">
+                      <span th:text="#{button.cancel}">Hủy</span>
+                    </a>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>

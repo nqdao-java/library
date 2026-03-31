@@ -3,11 +3,13 @@ package libraryManager.controller;
 import libraryManager.entity.BookItem;
 import libraryManager.repository.BookRepository;
 import libraryManager.service.BookItemService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@Slf4j
 @RequestMapping("/admin/book-items")
 public class AdminBookItemController {
 
@@ -22,6 +24,7 @@ public class AdminBookItemController {
     @GetMapping
     public String list(@RequestParam(name = "q", required = false) String q, Model model) {
         model.addAttribute("items", bookItemService.search(q));
+        log.debug("Check" +bookItemService.search(q));
         model.addAttribute("q", q);
         return "admin/book-items/list";
     }
@@ -37,6 +40,7 @@ public class AdminBookItemController {
 
     @PostMapping
     public String create(@ModelAttribute BookItem item) {
+        log.error("check" +item.toString());
         bookItemService.save(item);
         return "redirect:/admin/book-items";
     }
