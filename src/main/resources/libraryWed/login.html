@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Thư viện PTIT</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #f4f7f6; }
+        .login-container { max-width: 400px; margin-top: 10vh; }
+        /* Ẩn thông báo lỗi mặc định */
+        #errorAlert { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container login-container">
+    <div class="card shadow-lg border-0 rounded-lg">
+        <div class="card-header text-center bg-dark text-white pt-4 pb-3">
+            <h3><i class="fas fa-book-reader"></i> Thư viện PTIT</h3>
+            <p class="mb-0">Đăng nhập hệ thống</p>
+        </div>
+
+        <div class="card-body p-4">
+
+            <div id="errorAlert" class="alert alert-danger alert-dismissible fade show">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span id="errorMessage">Sai tên đăng nhập hoặc mật khẩu!</span>
+                <button type="button" class="btn-close" onclick="document.getElementById('errorAlert').style.display='none'"></button>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="username" placeholder="Mã SV/GV" required autofocus>
+                    <label for="username">Mã Sinh viên / Giảng viên</label>
+                </div>
+
+                <div class="form-floating mb-4">
+                    <input type="password" class="form-control" id="password" placeholder="Mật khẩu" required>
+                    <label for="password">Mật khẩu</label>
+                </div>
+
+                <button class="btn btn-primary w-100 py-2 fs-5" type="submit" id="loginBtn">
+                    <i class="fas fa-sign-in-alt"></i> <span id="btnText">Đăng nhập</span>
+                </button>
+            </form>
+        </div>
+        <div class="card-footer text-center py-3 text-muted">
+            <small>&copy; 2026 - Phát triển bởi Dev 5 năm kinh nghiệm 😉</small>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault(); // Chặn hành vi load lại trang của form mặc định
+
+        // 1. Lấy thông tin từ các ô nhập liệu
+        const usernameVal = document.getElementById('username').value;
+        const passwordVal = document.getElementById('password').value;
+
+        // 2. Các phần tử giao diện cần điều khiển
+        const errorAlert = document.getElementById('errorAlert');
+        const errorMessage = document.getElementById('errorMessage');
+        const loginBtn = document.getElementById('loginBtn');
+        const btnText = document.getElementById('btnText');
+
+        // Reset trạng thái hiển thị
+        errorAlert.style.display = 'none';
+        loginBtn.disabled = true;
+        btnText.innerText = "Đang xác thực...";
+
+        try {
+            // 3. Gọi API Login (Khớp với AuthController @PostMapping của bạn)
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userName: usernameVal,
+                    passWord: passwordVal
+                })
+            });
+
+            // 4. Xử lý kết quả trả về
+            if (response.ok) {
+                const data = await response.json();
+
+                // Lấy Token từ JwtAuthResponse (Giả sử field là accessToken hoặc token)
+                const token = data.accessToken || data.token;
+
+                // LƯU TRỮ QUAN TRỌNG: Cất token vào localStorage để dùng cho các request sau
+                localStorage.setItem('jwt_token', token);
+
+                // Nếu bạn muốn lưu luôn thông tin Role để ẩn/hiện menu nhanh ở Frontend
+                // localStorage.setItem('user_role', data.role);
+
+                // Chuyển hướng sang trang chính (OPAC hoặc Dashboard)
+                window.location.href = '/books/catalog';
+            } else {
+                // Xử lý các lỗi HTTP thường gặp
+                errorAlert.style.display = 'block';
+                if (response.status === 401) {
+                    errorMessage.innerText = "Sai tên đăng nhập hoặc mật khẩu!";
+                } else if (response.status === 423 || response.status === 403) {
+                    errorMessage.innerText = "Tài khoản đang bị khóa do nợ sách hoặc vi phạm!";
+                } else {
+                    errorMessage.innerText = "Lỗi hệ thống, vui lòng thử lại sau!";
+                }
+            }
+        } catch (error) {
+            console.error("Lỗi kết nối:", error);
+            errorAlert.style.display = 'block';
+            errorMessage.innerText = "Không thể kết nối tới máy chủ!";
+        } finally {
+            // Trả lại trạng thái nút bấm
+            loginBtn.disabled = false;
+            btnText.innerText = "Đăng nhập";
+        }
+    });
+</script>
+</body>
+</html>

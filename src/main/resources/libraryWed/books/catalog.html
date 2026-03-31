@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Tra cứu sách')}"></head>
+<body class="bg-light">
+
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container mt-4">
+    <h2 class="mb-4"><i class="fas fa-search"></i> Tra cứu tài liệu</h2>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+            <form action="/books" method="GET" class="row g-3">
+                <div class="col-md-5">
+                    <input type="text" class="form-control" name="keyword" placeholder="Nhập tên sách, tác giả hoặc ISBN...">
+                </div>
+                <div class="col-md-4">
+                    <select class="form-select" name="categoryId">
+                        <option value="">-- Tất cả danh mục --</option>
+                        <option th:each="cat : ${categories}"
+                                th:value="${cat.id}"
+                                th:text="${cat.name}"></option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary w-100"><i class="fas fa-filter"></i> Tìm kiếm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        <div class="col" th:each="book : ${books}">
+            <div class="card h-100 shadow-sm">
+                <img th:src="${book.coverImage != null ? book.coverImage : '/images/default-book.png'}"
+                     class="card-img-top" alt="Cover" style="height: 250px; object-fit: cover;">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-truncate" th:text="${book.title}" th:title="${book.title}">Tên sách</h5>
+                    <p class="card-text text-muted mb-1 text-truncate" th:text="${book.author}">Tác giả</p>
+                    <p class="card-text mb-2">
+                        <span class="badge bg-info" th:text="${book.category.name}">Danh mục</span>
+                    </p>
+
+                    <div class="mt-auto">
+                            <span th:if="${book.availableCount > 0}" class="text-success fw-bold">
+                                <i class="fas fa-check-circle"></i> Còn <span th:text="${book.availableCount}"></span> cuốn
+                            </span>
+                        <span th:unless="${book.availableCount > 0}" class="text-danger fw-bold">
+                                <i class="fas fa-times-circle"></i> Đã hết
+                            </span>
+                    </div>
+                </div>
+                <div class="card-footer bg-white border-top-0">
+                    <a th:href="@{/books/{id}(id=${book.id})}" class="btn btn-outline-primary w-100">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/layout :: scripts}"></div>
+</body>
+</html>
