@@ -1,0 +1,10 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(content=~{::body})}">
+  <body>
+    <h1><span th:text="#{form.copy}">Copy</span>: <span th:text="${item.barcode}">barcode</span></h1>
+    <p><strong th:text="#{label.book}">Book:</strong> <span th:text="${item.book.title}"></span></p>
+    <p><strong th:text="#{label.status}">Status:</strong> <span th:text="${item.status}"></span></p>
+    <p><strong th:text="#{label.location}">Location:</strong> <span th:text="${item.location}"></span></p>
+    <a class="btn btn-secondary" th:href="@{/admin/book-items}" th:text="#{button.back}">Back</a>
+  </body>
+</html>

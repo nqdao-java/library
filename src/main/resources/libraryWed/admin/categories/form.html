@@ -1,0 +1,19 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(content=~{::body})}">
+  <body>
+    <h1 th:text="${category.id} == null ? #{categories.new} : #{categories.edit}"></h1>
+    <form th:action="${action}" method="post" th:object="${category}">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      <div class="mb-3">
+        <label class="form-label" th:text="#{categories.name}">Name</label>
+        <input class="form-control" type="text" th:field="*{name}" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" th:text="#{categories.description}">Description</label>
+        <textarea class="form-control" th:field="*{description}"></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit" th:text="#{button.save}">Save</button>
+      <a class="btn btn-secondary" th:href="@{/admin/categories}" th:text="#{button.cancel}">Cancel</a>
+    </form>
+  </body>
+</html>

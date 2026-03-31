@@ -1,0 +1,31 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(content=~{::body})}">
+  <body>
+    <h1 th:text="${item.id} == null ? #{form.newCopy} : #{form.editCopy}"></h1>
+    <form th:action="${action}" method="post" th:object="${item}">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      <div class="mb-3">
+        <label class="form-label" th:text="#{label.barcode}">Barcode</label>
+        <input class="form-control" type="text" th:field="*{barcode}" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" th:text="#{label.book}">Book</label>
+        <select class="form-select" th:field="*{book}" >
+          <option th:each="b : ${books}" th:value="${b}" th:text="${b.title}"></option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" th:text="#{label.location}">Location</label>
+        <input class="form-control" type="text" th:field="*{location}" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" th:text="#{label.status}">Status</label>
+        <select class="form-select" th:field="*{status}">
+          <option th:each="s : ${statuses}" th:value="${s}" th:text="${s}"></option>
+        </select>
+      </div>
+      <button class="btn btn-primary" type="submit" th:text="#{button.save}">Save</button>
+      <a class="btn btn-secondary" th:href="@{/admin/book-items}" th:text="#{button.cancel}">Cancel</a>
+    </form>
+  </body>
+</html>

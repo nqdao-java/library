@@ -1,40 +1,44 @@
 package libraryManager.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
 @Entity
-@Table(name = "book")
-@Data
 public class Book {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idBook")
-    private int idBook;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idCategory", nullable = false)
-    private Category category;
+    private Long id;
 
-    @Column(name = "isbn", unique = true, nullable = false, length = 20)
     private String isbn;
-
-    @Column(name = "title", nullable = false)
     private String title;
-
-    @Column(name = "author")
     private String author;
-
-    @Column(name = "publisher")
     private String publisher;
-
-    @Column(name = "publishYear")
     private Integer publishYear;
-
-    @Column(name = "summary", columnDefinition = "TEXT")
+    @Column(length = 2000)
     private String summary;
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.AVAILABLE;
 
-    @Column(name = "coverImage")
-    private String coverImage;
+    public enum Status {
+        AVAILABLE, BORROWED
+    }
 
+    public Book() {}
+
+    // getters & setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getIsbn() { return isbn; }
+    public void setIsbn(String isbn) { this.isbn = isbn; }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+    public String getAuthor() { return author; }
+    public void setAuthor(String author) { this.author = author; }
+    public String getPublisher() { return publisher; }
+    public void setPublisher(String publisher) { this.publisher = publisher; }
+    public Integer getPublishYear() { return publishYear; }
+    public void setPublishYear(Integer publishYear) { this.publishYear = publishYear; }
+    public String getSummary() { return summary; }
+    public void setSummary(String summary) { this.summary = summary; }
+    public Status getStatus() { return status; }
+    public void setStatus(Status status) { this.status = status; }
 }

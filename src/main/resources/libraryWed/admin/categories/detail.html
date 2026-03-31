@@ -1,0 +1,8 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="~{layout/base :: layout(content=~{::body})}">
+  <body>
+    <h1 th:text="${category.name}">Category</h1>
+    <p th:text="${category.description}"></p>
+    <a class="btn btn-secondary" th:href="@{/admin/categories}" th:text="#{button.back}">Back</a>
+  </body>
+</html>

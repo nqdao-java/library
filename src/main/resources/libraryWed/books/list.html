@@ -1,0 +1,34 @@
+<div th:replace="~{layout/base :: layout(content=~{::body})}">
+  <div th:fragment="body">
+    <div class="hero">
+      <div class="d-flex justify-content-between align-items-center">
+        <h2 class="page-title">Danh mục sách</h2>
+        <a class="btn btn-sm btn-outline-secondary" th:href="@{/admin/home}">Quản trị</a>
+      </div>
+      <div class="row">
+        <div class="col-12 mb-3">
+          <form class="d-flex search-form" th:action="@{/books}" method="get">
+            <input class="form-control me-2" type="search" placeholder="" aria-label="Search" name="q" th:value="${q}" placeholder="Tìm theo tiêu đề">
+            <button class="btn btn-outline-success" type="submit">Tìm</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col" th:each="book : ${books}">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5 class="card-title" th:text="${book.title}">Title</h5>
+              <p class="card-text"><strong th:text="${book.author}">Author</strong></p>
+              <p class="card-text" th:text="${book.summary}">Summary</p>
+              <a th:href="@{/books/detail(id=${book.id})}" class="btn btn-primary">Xem</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>

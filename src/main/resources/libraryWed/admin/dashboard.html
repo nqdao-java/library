@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/base :: layout(~{::body})">
+  <body>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Số sách</h5>
+            <p class="card-text" th:text="${bookCount}">0</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Số bản sao</h5>
+            <p class="card-text" th:text="${itemCount}">0</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Mượn đang hoạt động</h5>
+            <p class="card-text" th:text="${activeLoans}">0</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+          <div class="card-body">
+            <h5 class="card-title">Phạt chưa thanh toán</h5>
+            <p class="card-text" th:text="${openFines}">0</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <a class="btn btn-outline-primary" th:href="@{/admin/books}">Quản lý Sách</a>
+      <a class="btn btn-outline-secondary" th:href="@{/admin/book-items}">Quản lý Bản sao</a>
+      <a class="btn btn-outline-warning" th:href="@{/admin/loans}">Cho mượn</a>
+      <a class="btn btn-outline-danger" th:href="@{/admin/fines}">Phạt</a>
+    </div>
+  <div class="mt-4">
+    <h3 class="mb-4">Bảng điều khiển quản trị</h3>
+    <p class="text-muted">Tóm tắt quản trị (demo).</p>
+    <ul>
+      <li><a th:href="@{/admin/books}">Quản lý Sách</a></li>
+      <li><a href="/h2-console" target="_blank">H2 Console</a></li>
+    </ul>
+  </div>
+
+  </body>
+</html>

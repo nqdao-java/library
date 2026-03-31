@@ -1,0 +1,36 @@
+:root{
+	--brand:#0d6efd;
+	--muted:#6c757d;
+}
+html,body{height:100%;}
+body{
+	padding-bottom:60px;
+	background: linear-gradient(180deg,#f8f9fa 0%, #ffffff 60%);
+	color: #212529;
+	-webkit-font-smoothing:antialiased;
+}
+.container{max-width:1100px}
+.card{
+	box-shadow:0 6px 18px rgba(18,38,63,.08);
+	border:0;
+	transition:transform .12s ease,box-shadow .12s ease;
+}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(18,38,63,.12)}
+.navbar-brand{font-weight:700}
+.hero{
+	padding:28px 0;
+	margin-bottom:18px;
+}
+.hero h1{font-size:1.6rem;margin:0}
+.page-title{margin-bottom:1rem}
+.search-form .form-control{min-width:260px}
+footer.site-footer{
+	position:fixed;left:0;right:0;bottom:0;height:56px;background:#fff;border-top:1px solid #e9ecef;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:.9rem}
+table.table tbody tr td{vertical-align:middle}
+form .btn{min-width:96px}
+
+/* small screens adjustments */
+@media (max-width:576px){
+	.search-form .form-control{min-width:120px}
+	.container{padding-left:12px;padding-right:12px}
+}

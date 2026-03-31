@@ -1,0 +1,27 @@
+<div th:replace="~{layout/base :: layout(content=~{::body})}">
+  <div th:fragment="body">
+    <h4 th:text="${book.title}"></h4>
+    <dl class="row">
+      <dt class="col-sm-3" th:text="#{label.author}">Tác giả</dt>
+      <dd class="col-sm-9" th:text="${book.author}"></dd>
+
+      <dt class="col-sm-3" th:text="#{label.isbn}">ISBN</dt>
+      <dd class="col-sm-9" th:text="${book.isbn}"></dd>
+
+      <dt class="col-sm-3" th:text="#{label.publisher}">Nhà xuất bản</dt>
+      <dd class="col-sm-9" th:text="${book.publisher}"></dd>
+
+      <dt class="col-sm-3" th:text="#{label.year}">Năm</dt>
+      <dd class="col-sm-9" th:text="${book.publishYear}"></dd>
+
+      <dt class="col-sm-3" th:text="#{label.status}">Trạng thái</dt>
+      <dd class="col-sm-9" th:text="${book.status}"></dd>
+
+      <dt class="col-sm-3" th:text="#{label.summary}">Tóm tắt</dt>
+      <dd class="col-sm-9" th:utext="${book.summary}"></dd>
+    </dl>
+
+    <a class="btn btn-secondary" th:href="@{/admin/books}" th:text="#{button.back}">Quay lại</a>
+    <a class="btn btn-primary" th:href="@{/admin/books/{id}/edit(id=${book.id})}" th:text="#{button.edit}">Sửa</a>
+  </div>
+</div>

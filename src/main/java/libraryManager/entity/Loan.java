@@ -1,40 +1,39 @@
 package libraryManager.entity;
 
 import jakarta.persistence.*;
-import libraryManager.entity.Enum.ELoanStatus;
-import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "loan")
-@Data
+@Table(name = "loans")
 public class Loan {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idLoan")
-    private Long idLoan;
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId", nullable = false)
-    private Users user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idBookItem", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "book_item_id")
     private BookItem bookItem;
 
-    @Column(name = "borrowDate", nullable = false)
-    private LocalDateTime borrowDate;
+    private String borrowerName;
 
-    @Column(name = "dueDate", nullable = false)
-    private LocalDateTime dueDate;
+    private LocalDate borrowDate;
 
-    @Column(name = "returnDate")
-    private LocalDateTime returnDate;
+    private LocalDate dueDate;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false, length = 20)
-    private ELoanStatus status;
+    private LocalDate returnDate;
 
-
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public BookItem getBookItem() { return bookItem; }
+    public void setBookItem(BookItem bookItem) { this.bookItem = bookItem; }
+    public String getBorrowerName() { return borrowerName; }
+    public void setBorrowerName(String borrowerName) { this.borrowerName = borrowerName; }
+    public LocalDate getBorrowDate() { return borrowDate; }
+    public void setBorrowDate(LocalDate borrowDate) { this.borrowDate = borrowDate; }
+    public LocalDate getDueDate() { return dueDate; }
+    public void setDueDate(LocalDate dueDate) { this.dueDate = dueDate; }
+    public LocalDate getReturnDate() { return returnDate; }
+    public void setReturnDate(LocalDate returnDate) { this.returnDate = returnDate; }
 }

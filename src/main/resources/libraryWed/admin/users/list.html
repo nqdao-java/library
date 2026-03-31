@@ -1,0 +1,37 @@
+<div th:replace="~{layout/base :: layout(content=~{::body})}">
+  <div th:fragment="body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 th:text="#{admin.manage.users}">Quản lý Người dùng</h4>
+      <a class="btn btn-success" th:href="@{/admin/users/new}" th:text="#{button.create}">Tạo người dùng</a>
+    </div>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th th:text="#{table.id}">ID</th>
+          <th th:text="#{users.username}">Username</th>
+          <th th:text="#{users.fullName}">Full name</th>
+          <th th:text="#{users.email}">Email</th>
+          <th th:text="#{users.role}">Role</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="u : ${users}">
+          <td th:text="${u.id}"></td>
+          <td th:text="${u.username}"></td>
+          <td th:text="${u.fullName}"></td>
+          <td th:text="${u.email}"></td>
+          <td th:text="${u.role}"></td>
+          <td class="text-end">
+            <a class="btn btn-sm btn-primary" th:href="@{/admin/users/{id}/edit(id=${u.id})}" th:text="#{button.edit}">Sửa</a>
+            <form th:action="@{/admin/users/{id}/delete(id=${u.id})}" method="post" style="display:inline">
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+              <button class="btn btn-sm btn-danger" type="submit" onclick="return confirm(#{confirm.deleteUser})" th:text="#{button.delete}">Xoá</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

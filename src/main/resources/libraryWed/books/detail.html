@@ -1,0 +1,14 @@
+<div th:replace="~{layout/base :: layout(content=~{::body})}">
+  <div th:fragment="body">
+    <div class="mt-4">
+      <div class="card">
+      <div class="card-body">
+      <h3 th:text="${book.title}">Book Title</h3>
+      <p><strong>Tác giả:</strong> <span th:text="${book.author}">Author</span></p>
+      <p><strong>ISBN:</strong> <span th:text="${book.isbn}">ISBN</span></p>
+      <p th:text="${book.summary}">Summary</p>
+      <a th:href="@{/}" class="btn btn-secondary">Quay lại</a>
+      </div>
+    </div>
+  </div>
+</div>

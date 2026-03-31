@@ -1,0 +1,28 @@
+<div th:replace="~{layout/base :: layout(content=~{::body})}">
+  <div th:fragment="body">
+    <div class="row justify-content-center">
+      <div class="col-sm-10 col-md-7 col-lg-6">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="mb-3">M\u01b0\u1ee3n s\u00e1ch</h4>
+            <form method="post" th:action="@{/admin/loans/borrow}">
+              <div class="mb-3">
+                <label class="form-label">Ch\u1ecdn b\u1ea3n sao</label>
+                <select name="bookId" class="form-select">
+                  <option th:each="it : ${items}" th:value="${it.id}" th:text="${it.book.title} + ' - ' + ${it.barcode} + ' (' + ${it.status} + ')'"></option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Tên người mượn</label>
+                <input name="borrowerName" class="form-control" required />
+              </div>
+              <div class="d-grid">
+                <button class="btn btn-primary">Mượn</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

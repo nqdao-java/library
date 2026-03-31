@@ -1,43 +1,42 @@
 package libraryManager.entity;
 
 import jakarta.persistence.*;
-import libraryManager.entity.Enum.EFineStatus;
-import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Fine")
-@Data
+@Table(name = "fines")
 public class Fine {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idLoan", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "loan_id")
     private Loan loan;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId", nullable = false)
-    private Users user;
+    private BigDecimal amount;
 
-    @Column(name = "fineAmount", precision = 12, scale = 2, nullable = false)
-    private BigDecimal fineAmount;
+    private boolean paid = false;
 
-    @Column(name = "overDueDays")
-    private Integer overdueDays;
-
-    @Column(name = "reason", length = 255)
-    private String reason;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false, length = 20)
-    private EFineStatus status;
-
-    @CreationTimestamp
-    @Column(name = "createdAt", updatable = false)
     private LocalDateTime createdAt;
+
+    private LocalDateTime paidAt;
+
+    @PrePersist
+    public void prePersist() { createdAt = LocalDateTime.now(); }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public Loan getLoan() { return loan; }
+    public void setLoan(Loan loan) { this.loan = loan; }
+    public BigDecimal getAmount() { return amount; }
+    public void setAmount(BigDecimal amount) { this.amount = amount; }
+    public boolean isPaid() { return paid; }
+    public void setPaid(boolean paid) { this.paid = paid; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public LocalDateTime getPaidAt() { return paidAt; }
+    public void setPaidAt(LocalDateTime paidAt) { this.paidAt = paidAt; }
 }

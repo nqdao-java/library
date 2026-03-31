@@ -1,33 +1,36 @@
 package libraryManager.entity;
 
 import jakarta.persistence.*;
-import libraryManager.entity.Enum.EBookItemStatus;
-import lombok.Data;
 
 @Entity
-@Table( name = "bookItem")
-@Data
+@Table(name = "book_items")
 public class BookItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idBookItem")
-    private int idBookItem;
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_id", nullable = false)
-    private Book book;
-
-    @Column(name = "barcode", unique = true, nullable = false, length = 50)
     private String barcode;
 
-    @Column(name = "floor", length = 50)
-    private String floor;
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
 
-    @Column(name = "shelf", length = 50)
-    private String shelf;
+    private String location;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
-    private EBookItemStatus status;
+    private Status status = Status.AVAILABLE;
 
+    public enum Status { AVAILABLE, BORROWED, LOST }
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getBarcode() { return barcode; }
+    public void setBarcode(String barcode) { this.barcode = barcode; }
+    public Book getBook() { return book; }
+    public void setBook(Book book) { this.book = book; }
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
+    public Status getStatus() { return status; }
+    public void setStatus(Status status) { this.status = status; }
 }
