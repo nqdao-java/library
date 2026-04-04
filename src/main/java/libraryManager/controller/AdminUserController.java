@@ -31,6 +31,7 @@ public class AdminUserController {
     @GetMapping("/new")
     public String createForm(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("roles", User.Role.values());
         return "admin/users/form";
     }
 

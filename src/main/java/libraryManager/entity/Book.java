@@ -8,6 +8,9 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
     private String isbn;
     private String title;
     private String author;
