@@ -2,6 +2,7 @@ package libraryManager.service;
 
 import libraryManager.entity.Category;
 import libraryManager.repository.CategoryRepository;
+import org.jspecify.annotations.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,4 +37,5 @@ public class CategoryService {
     public void deleteById(Long id) {
         categoryRepository.deleteById(id);
     }
+
 }
