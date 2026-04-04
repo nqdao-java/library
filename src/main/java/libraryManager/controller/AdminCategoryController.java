@@ -1,18 +1,23 @@
 package libraryManager.controller;
 
+import libraryManager.entity.Book;
 import libraryManager.entity.Category;
+import libraryManager.service.BookService;
 import libraryManager.service.CategoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/admin/categories")
 public class AdminCategoryController {
-
+    private final BookService bookService;
     private final CategoryService categoryService;
 
-    public AdminCategoryController(CategoryService categoryService) {
+    public AdminCategoryController(BookService bookService, CategoryService categoryService) {
+        this.bookService = bookService;
         this.categoryService = categoryService;
     }
 
@@ -46,6 +51,12 @@ public class AdminCategoryController {
 
     @GetMapping("/{id}")
     public String detail(@PathVariable("id") Long id, Model model) {
+        Category category = categoryService.findById(id).orElseThrow();
+
+        List<Book> books = bookService.findByCategoryId(id);
+
+        model.addAttribute("category", category);
+        model.addAttribute("books", books);
         Category c = categoryService.findById(id).orElseThrow();
         model.addAttribute("category", c);
         return "admin/categories/detail";

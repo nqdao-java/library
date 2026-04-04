@@ -1,19 +1,25 @@
 package libraryManager.controller;
 
 import libraryManager.entity.Book;
+import libraryManager.entity.Category;
+import libraryManager.repository.CategoryRepository;
 import libraryManager.service.BookService;
+import libraryManager.service.CategoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/admin/books")
 public class AdminBookController {
 
     private final BookService bookService;
-
-    public AdminBookController(BookService bookService) {
+    private final CategoryService categoryService;
+    public AdminBookController(BookService bookService, CategoryService categoryService) {
         this.bookService = bookService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping
@@ -25,6 +31,8 @@ public class AdminBookController {
 
     @GetMapping("/new")
     public String createForm(Model model) {
+        List<Category> categories = categoryService.listAll();
+        model.addAttribute("categories", categories);
         model.addAttribute("book", new Book());
         model.addAttribute("action", "/admin/books");
         return "admin/books/form";
@@ -39,6 +47,7 @@ public class AdminBookController {
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable("id") Long id, Model model) {
         Book book = bookService.findById(id).orElseThrow();
+        model.addAttribute("categories", categoryService.listAll());
         model.addAttribute("book", book);
         model.addAttribute("action", "/admin/books");
         return "admin/books/form";
@@ -55,5 +64,27 @@ public class AdminBookController {
         Book book = bookService.findById(id).orElseThrow();
         model.addAttribute("book", book);
         return "admin/books/detail";
+    }
+
+    @GetMapping("/books")
+    public String listBooks(
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) Long categoryId,
+            Model model) {
+
+        model.addAttribute("categories", categoryService.listAll());
+
+        List<Book> books;
+        if (categoryId != null || (q != null && !q.isEmpty())) {
+            books = bookService.search(q, categoryId);
+        } else {
+            books = bookService.findAll();
+        }
+
+        model.addAttribute("books", books);
+        model.addAttribute("q", q);
+        model.addAttribute("selectedCatId", categoryId); // Giữ trạng thái đã chọn trên dropdown
+
+        return "books/index";
     }
 }
